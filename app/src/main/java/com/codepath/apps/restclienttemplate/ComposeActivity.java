@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -40,8 +41,9 @@ public class ComposeActivity extends AppCompatActivity {
                     // Prepare data intent
                     Intent data = new Intent();
                     // Pass tweet as 'extra' in intent back to previous activity
-                    data.putExtra("tweet", Parcels.wrap(tweet));
-
+                    data.putExtra("tweet", Parcels.wrap(tweet)); // wrap tweet with parcels for speed over serializable
+                    setResult(RESULT_OK, data); // send result code showing it was a success along with tweet
+                    finish(); // close activity and return data (tweet) to intent
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -49,7 +51,9 @@ public class ComposeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
+                //super.onFailure(statusCode, headers, throwable, errorResponse);
+                // add message to log to make it easier to debug
+                Log.d("SendTweet error", errorResponse.toString());
             }
         });
 
