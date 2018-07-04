@@ -12,27 +12,23 @@
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
     </style>
 
-    <!-- Define your colors in `res/values/colors.xml` -->
-    <color name="twitter_blue">#ff1da1f2</color>
-    <color name="white">#ffffff</color>
-
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/twitter_blue</item>
+        <item name="android:background">@color/white</item>
         <item name="android:titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@color/twitter_blue</item>
+        <item name="background">@color/white</item>
         <item name="titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
 
     </style>
 
     <style name="MyActionBar.TitleTextStyle"
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/twitter_blue</item>
     </style>
 
     <style name="MyActionBarTabText" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/twitter_blue</item>
     </style>
 
 

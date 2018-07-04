@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:hint="Type Tweet Here"
         android:inputType="textMultiLine"
-        android:maxLength="140"></EditText>
+        android:maxLength="140"
+        android:textColorLink="@color/twitter_blue"></EditText>
 
     <Button
         android:id="@+id/btnTweet"
