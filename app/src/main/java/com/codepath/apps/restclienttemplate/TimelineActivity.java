@@ -15,6 +15,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,19 @@ public class TimelineActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // if intent was received successfully (if result ok matches result code
+        if (resultCode == RESULT_OK) {
+            // then unwrap the parcealized (vs serialized) tweet
+            Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("tweet"));
+            // add tweet to array and notify adapter of additiom
+            tweets.add(0, tweet);
+            tweetAdapter.notifyItemInserted(0);
+            // scroll the list back to the top
+            rvTweets.scrollToPosition(0);
+        }
+    }
 
     public void onComposeAction(MenuItem mi) {
         // first parameter is the context, second is the class of the activity to launch
