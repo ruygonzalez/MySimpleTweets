@@ -11,12 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     private List<Tweet> mTweets;
@@ -56,8 +59,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         holder.tvUserName.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.createdAt.setText(getRelativeTimeAgo(tweet.createdAt));
+        final RoundedCornersTransformation roundedCornersTransformation
+                = new RoundedCornersTransformation(100, 15);
+        final RequestOptions requestOptions = RequestOptions.bitmapTransform(roundedCornersTransformation);
         Glide.with(context)
                 .load(tweet.user.profileImageUrl)
+                .apply(requestOptions)
                 .into(holder.ivProfileImage);
     }
 
