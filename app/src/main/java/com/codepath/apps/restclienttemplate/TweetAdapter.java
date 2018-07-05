@@ -59,6 +59,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         holder.tvUserName.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.createdAt.setText(getRelativeTimeAgo(tweet.createdAt));
+        // Round the corners of the profile images
         final RoundedCornersTransformation roundedCornersTransformation
                 = new RoundedCornersTransformation(100, 15);
         final RequestOptions requestOptions = RequestOptions.bitmapTransform(roundedCornersTransformation);
