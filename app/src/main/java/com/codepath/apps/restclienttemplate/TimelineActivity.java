@@ -138,6 +138,8 @@ public class TimelineActivity extends AppCompatActivity {
         }
     }
 
+
+
     public void onComposeAction(MenuItem mi) {
         // first parameter is the context, second is the class of the activity to launch
         Intent i = new Intent(this, ComposeActivity.class);

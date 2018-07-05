@@ -29,7 +29,11 @@ public class ComposeActivity extends AppCompatActivity {
         et_simple = (EditText) findViewById(R.id.et_simple);
 
     }
-
+    public void goBack(View view){
+        Intent data = new Intent();
+        setResult(RESULT_CANCELED, data);
+        finish();
+    }
     public void composeTweet(View view){
         TwitterClient c = TwitterApp.getRestClient(this);
         c.sendTweet(et_simple.getText().toString(), new JsonHttpResponseHandler(){
