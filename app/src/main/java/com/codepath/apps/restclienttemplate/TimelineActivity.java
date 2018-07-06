@@ -147,12 +147,13 @@ public class TimelineActivity extends AppCompatActivity {
     public void onComposeAction(MenuItem mi) {
         // first parameter is the context, second is the class of the activity to launch
         Intent i = new Intent(this, ComposeActivity.class);
+        i.putExtra("replying_to", "");
         startActivityForResult(i, REQUEST_CODE); // brings up the second activity
     }
-    public void onReplyAction(View view) {
+    /* public void onReplyAction(View view) {
         Intent i = new Intent(this, ComposeActivity.class);
         startActivityForResult(i, REQUEST_CODE); // brings up the second activity
-    }
+    } */
     public void onRetweetAction(View view) {
         Intent i = new Intent(this, ComposeActivity.class);
         startActivityForResult(i, REQUEST_CODE); // brings up the second activity

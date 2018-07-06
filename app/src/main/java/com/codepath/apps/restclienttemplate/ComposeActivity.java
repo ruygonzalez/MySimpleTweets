@@ -20,6 +20,7 @@ public class ComposeActivity extends AppCompatActivity {
     // text field containing tweet
     EditText et_simple;
     Tweet tweet;
+    String handle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,11 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
         // resolve the text field from the layout
         et_simple = (EditText) findViewById(R.id.et_simple);
+        handle = getIntent().getExtras().getString("replying_to");
+        //handle = (String) Parcels.unwrap(getIntent().getParcelableExtra("replying_to"));
+        if( handle != ""){
+            et_simple.setText(handle);
+        }
 
     }
     public void goBack(View view){
@@ -36,7 +42,7 @@ public class ComposeActivity extends AppCompatActivity {
     }
     public void composeTweet(View view){
         TwitterClient c = TwitterApp.getRestClient(this);
-        c.sendTweet(et_simple.getText().toString(), new JsonHttpResponseHandler(){
+        c.sendTweet( et_simple.getText().toString(), new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);

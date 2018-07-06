@@ -1,12 +1,15 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -101,13 +104,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         notifyDataSetChanged();
     }
 
+
     // create ViewHolder class
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView ivProfileImage;
         public TextView tvUserName;
         public TextView tvBody;
         public TextView createdAt;
+        public Button btnReply;
 
 
         public ViewHolder(View itemView){
@@ -119,8 +124,27 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             createdAt = (TextView) itemView.findViewById(R.id.tvDate);
+            btnReply = (Button) itemView.findViewById(R.id.btnReply);
+            btnReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // gets item position
+                    int position = getAdapterPosition();
+                    // make sure the position is valid, i.e. actually exists in the view
+                    if (position != RecyclerView.NO_POSITION) {
+                        // get the movie at the position, this won't work if the class is static
+                        Tweet t = mTweets.get(position);
+                        // create intent for the new activity
+                        Intent intent = new Intent(context, ComposeActivity.class);
+                        intent.putExtra("replying_to", "@" + t.user.screenName);
+                        // serialize the tweet using parceler, use its short name as a key
+                        //intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(t));
+                        // show the activity
+                        ((Activity) context).startActivityForResult(intent, 404);
+                    }
+                }
+            });
         }
-
     }
 
 
