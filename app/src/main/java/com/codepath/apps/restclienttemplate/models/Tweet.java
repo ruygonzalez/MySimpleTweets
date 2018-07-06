@@ -12,7 +12,7 @@ public class Tweet {
     public long uid; // database ID for the tweet
     public User user;
     public String createdAt;
-
+    public int retweetcount;
 
     // deserialize the JSON
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException{
@@ -23,6 +23,7 @@ public class Tweet {
         tweet.uid = jsonObject.getLong("id");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+        tweet.retweetcount = jsonObject.getInt("retweet_count");
         //tweet.imageUrl = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url");
         return tweet;
     }

@@ -78,5 +78,14 @@
         android:tint="@color/twitter_blue"
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
+    <TextView
+        android:id="@+id/tvretweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="123dp"
+        android:text="TextView" />
+
 
 </RelativeLayout>

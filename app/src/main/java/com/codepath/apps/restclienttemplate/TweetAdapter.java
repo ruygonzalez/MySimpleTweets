@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
@@ -62,6 +69,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         holder.tvUserName.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.createdAt.setText(getRelativeTimeAgo(tweet.createdAt));
+        holder.tvretweet.setText(Integer.toString(tweet.retweetcount));
         // Round the corners of the profile images
         final RoundedCornersTransformation roundedCornersTransformation
                 = new RoundedCornersTransformation(100, 15);
@@ -113,6 +121,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         public TextView tvBody;
         public TextView createdAt;
         public Button btnReply;
+        public ImageView ivRetweet;
+        public TextView tvretweet;
 
 
         public ViewHolder(View itemView){
@@ -123,6 +133,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
             tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
+            tvretweet = (TextView)  itemView.findViewById(R.id.tvretweet);
             createdAt = (TextView) itemView.findViewById(R.id.tvDate);
             btnReply = (Button) itemView.findViewById(R.id.btnReply);
             btnReply.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +153,43 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                         //intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(t));
                         // show the activity
                         ((Activity) context).startActivityForResult(intent, 404);
+                    }
+                }
+            });
+            ivRetweet = (ImageView) itemView.findViewById(R.id.iv_retweet);
+            ivRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // gets item position
+                    int position = getAdapterPosition();
+                    // make sure the position is valid, i.e. actually exists in the view
+                    if (position != RecyclerView.NO_POSITION) {
+                        // get the movie at the position, this won't work if the class is static
+                        Tweet t = mTweets.get(position);
+                        TwitterClient c = TwitterApp.getRestClient(context);
+                        c.retweet(t.uid, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                super.onSuccess(statusCode, headers, response);
+                                try {
+                                    Tweet tweet = Tweet.fromJson(response);
+                                    // Prepare data intent
+                                    Intent data = new Intent();
+                                    // Pass tweet as 'extra' in intent back to previous activity
+                                    data.putExtra("tweet", Parcels.wrap(tweet)); // wrap tweet with parcels for speed over serializable
+                                    ((Activity) context).startActivityForResult(data, 404);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    //super.onFailure(statusCode, headers, throwable, errorResponse);
+                                    // add message to log to make it easier to debug
+                                    Log.d("SendTweet error", errorResponse.toString());
+                                }
+                            });
                     }
                 }
             });
