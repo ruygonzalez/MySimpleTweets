@@ -148,6 +148,7 @@ public class TimelineActivity extends AppCompatActivity {
         // first parameter is the context, second is the class of the activity to launch
         Intent i = new Intent(this, ComposeActivity.class);
         i.putExtra("replying_to", "");
+        i.putExtra("uid",0);
         startActivityForResult(i, REQUEST_CODE); // brings up the second activity
     }
     /* public void onReplyAction(View view) {

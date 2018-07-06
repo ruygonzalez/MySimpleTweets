@@ -21,6 +21,7 @@ public class ComposeActivity extends AppCompatActivity {
     EditText et_simple;
     Tweet tweet;
     String handle;
+    long ident;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class ComposeActivity extends AppCompatActivity {
         // resolve the text field from the layout
         et_simple = (EditText) findViewById(R.id.et_simple);
         handle = getIntent().getExtras().getString("replying_to");
+        ident = getIntent().getExtras().getLong("uid");
         //handle = (String) Parcels.unwrap(getIntent().getParcelableExtra("replying_to"));
         if( handle != ""){
             et_simple.setText(handle);
@@ -42,30 +44,57 @@ public class ComposeActivity extends AppCompatActivity {
     }
     public void composeTweet(View view){
         TwitterClient c = TwitterApp.getRestClient(this);
-        c.sendTweet( et_simple.getText().toString(), new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-                    tweet = Tweet.fromJson(response);
-                    // Prepare data intent
-                    Intent data = new Intent();
-                    // Pass tweet as 'extra' in intent back to previous activity
-                    data.putExtra("tweet", Parcels.wrap(tweet)); // wrap tweet with parcels for speed over serializable
-                    setResult(RESULT_OK, data); // send result code showing it was a success along with tweet
-                    finish(); // close activity and return data (tweet) to intent
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if(ident == 0) {
+            c.sendTweet(et_simple.getText().toString(), new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        tweet = Tweet.fromJson(response);
+                        // Prepare data intent
+                        Intent data = new Intent();
+                        // Pass tweet as 'extra' in intent back to previous activity
+                        data.putExtra("tweet", Parcels.wrap(tweet)); // wrap tweet with parcels for speed over serializable
+                        setResult(RESULT_OK, data); // send result code showing it was a success along with tweet
+                        finish(); // close activity and return data (tweet) to intent
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //super.onFailure(statusCode, headers, throwable, errorResponse);
-                // add message to log to make it easier to debug
-                Log.d("SendTweet error", errorResponse.toString());
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    //super.onFailure(statusCode, headers, throwable, errorResponse);
+                    // add message to log to make it easier to debug
+                    Log.d("SendTweet error", errorResponse.toString());
+                }
+            });
+        }
+        else{
+            c.replyTweet(et_simple.getText().toString(), ident, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        tweet = Tweet.fromJson(response);
+                        // Prepare data intent
+                        Intent data = new Intent();
+                        // Pass tweet as 'extra' in intent back to previous activity
+                        data.putExtra("tweet", Parcels.wrap(tweet)); // wrap tweet with parcels for speed over serializable
+                        setResult(RESULT_OK, data); // send result code showing it was a success along with tweet
+                        finish(); // close activity and return data (tweet) to intent
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    //super.onFailure(statusCode, headers, throwable, errorResponse);
+                    // add message to log to make it easier to debug
+                    Log.d("SendTweet error", errorResponse.toString());
+                }
+            });
+        }
     }
 }
