@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -21,6 +22,11 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+/*
+    For retweet, no need to launch ComposeActivity class, just send tweet with tweet including username in quotes"
+    For reply, somehow add extra to intent? maybe boolean indicating reply = true
+ */
+
 
 public class TimelineActivity extends AppCompatActivity {
     // REQUEST_CODE can be any value we like, used to determine the result type later
@@ -138,10 +144,16 @@ public class TimelineActivity extends AppCompatActivity {
         }
     }
 
-
-
     public void onComposeAction(MenuItem mi) {
         // first parameter is the context, second is the class of the activity to launch
+        Intent i = new Intent(this, ComposeActivity.class);
+        startActivityForResult(i, REQUEST_CODE); // brings up the second activity
+    }
+    public void onReplyAction(View view) {
+        Intent i = new Intent(this, ComposeActivity.class);
+        startActivityForResult(i, REQUEST_CODE); // brings up the second activity
+    }
+    public void onRetweetAction(View view) {
         Intent i = new Intent(this, ComposeActivity.class);
         startActivityForResult(i, REQUEST_CODE); // brings up the second activity
     }

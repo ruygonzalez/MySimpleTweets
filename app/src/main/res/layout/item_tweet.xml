@@ -20,8 +20,8 @@
         android:layout_alignStart="@+id/tvUserName"
         android:layout_below="@+id/tvBody"
         android:layout_marginTop="8dp"
+        android:onClick="onReplyAction"
         android:background="@android:color/transparent"
-        android:onClick="replyTweet"
         android:text="@string/reply"
         android:textColor="@color/twitter_blue" />
 
@@ -65,6 +65,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/btnReply"
         android:layout_marginStart="160dp"
+        android:onClick="onRetweetAction"
         android:tint="@color/twitter_blue"
         app:srcCompat="@drawable/ic_vector_retweet" />
 
