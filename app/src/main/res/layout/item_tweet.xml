@@ -13,6 +13,19 @@
         android:layout_alignParentTop="true"
         app:srcCompat="@android:color/black" />
 
+    <Button
+        android:id="@+id/btnReply"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
+        android:layout_alignStart="@+id/tvUserName"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:onClick="replyTweet"
+        android:text="@string/reply"
+        android:textColor="@color/twitter_blue" />
+
+
     <TextView
         android:id="@+id/tvUserName"
         android:layout_width="wrap_content"
@@ -44,4 +57,26 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/iv_retweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/btnReply"
+        android:layout_marginStart="160dp"
+        android:tint="@color/twitter_blue"
+        app:srcCompat="@drawable/ic_vector_retweet" />
+
+    <ImageView
+        android:id="@+id/iv_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/btnReply"
+        android:layout_marginEnd="70dp"
+        android:tint="@color/twitter_blue"
+        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+
+
 </RelativeLayout>
