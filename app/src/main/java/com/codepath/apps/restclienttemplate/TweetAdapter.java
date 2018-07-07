@@ -21,7 +21,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -176,11 +175,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                                 super.onSuccess(statusCode, headers, response);
                                 try {
                                     Tweet tweet = Tweet.fromJson(response);
-                                    // Prepare data intent
-                                    Intent data = new Intent();
-                                    // Pass tweet as 'extra' in intent back to previous activity
-                                    data.putExtra("tweet", Parcels.wrap(tweet)); // wrap tweet with parcels for speed over serializable
-                                    ((Activity) context).startActivityForResult(data, 404);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
