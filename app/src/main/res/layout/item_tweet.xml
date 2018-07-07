@@ -72,9 +72,8 @@
         android:id="@+id/iv_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/btnReply"
-        android:layout_marginEnd="70dp"
+        android:layout_toEndOf="@id/tvretweet"
+        android:layout_alignBaseline="@+id/btnReply"
         android:tint="@color/twitter_blue"
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
@@ -82,9 +81,16 @@
         android:id="@+id/tvretweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="123dp"
+        android:layout_alignBaseline="@+id/btnReply"
+        android:layout_toEndOf="@+id/iv_retweet"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvfavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/iv_like"
+        android:layout_alignBaseline="@+id/btnReply"
         android:text="TextView" />
 
 

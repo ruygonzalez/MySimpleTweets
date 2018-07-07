@@ -70,6 +70,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         holder.tvBody.setText(tweet.body);
         holder.createdAt.setText(getRelativeTimeAgo(tweet.createdAt));
         holder.tvretweet.setText(Integer.toString(tweet.retweetcount));
+        holder.tvfavorite.setText(Integer.toString(tweet.favoritescount));
         // Round the corners of the profile images
         final RoundedCornersTransformation roundedCornersTransformation
                 = new RoundedCornersTransformation(100, 15);
@@ -123,6 +124,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         public Button btnReply;
         public ImageView ivRetweet;
         public TextView tvretweet;
+        public TextView tvfavorite;
 
 
         public ViewHolder(View itemView){
@@ -135,6 +137,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvretweet = (TextView)  itemView.findViewById(R.id.tvretweet);
             createdAt = (TextView) itemView.findViewById(R.id.tvDate);
+            tvfavorite = (TextView) itemView.findViewById(R.id.tvfavorite);
             btnReply = (Button) itemView.findViewById(R.id.btnReply);
             btnReply.setOnClickListener(new View.OnClickListener() {
                 @Override
